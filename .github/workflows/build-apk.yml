@@ -19,14 +19,16 @@ jobs:
         distribution: 'zulu'
         java-version: '17'
 
-    - name: Run Build Directly
+    - name: Setup Gradle Wrapper
       run: |
-        # Используем встроенный в систему сборщик без использования gradlew
-        gradle assembleDebug
+        # Автоматически генерируем официальные файлы gradle wrapper внутри сервера
+        gradle wrapper --gradle-version 8.5
+
+    - name: Build Debug APK
+      run: ./gradlew assembleDebug
 
     - name: Upload APK Artifact
       uses: actions/upload-artifact@v4
       with:
         name: app-debug
         path: app/build/outputs/apk/debug/app-debug.apk
-        
